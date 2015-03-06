@@ -1,2 +1,2 @@
-# Python_project_2
+# Python_project
 Assignment python IIT BHU
