@@ -1,4 +1,4 @@
-class lss:#LinearSystemSolver:
+class LinearSystemSolver:
 
     def matinA(self,m,n):
         from numpy import zeros,array
