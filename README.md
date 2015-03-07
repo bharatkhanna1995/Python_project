@@ -1,4 +1,4 @@
-class lss:
+class lss:#LinearSystemSolver:
 
     def matinA(self,m,n):
         from numpy import zeros,array
@@ -36,7 +36,6 @@ class lss:
             for j in range(i+1,n):
                 x_[i]-=C[i,j]*x_[j]
             x_[i]=x_[i]/C[i,i]
-        print ('x',x_)
         return x_
 
     def pivot(self,m,n,C):
@@ -60,66 +59,63 @@ class lss:
             A=self.matinA(m,n)
             b=self.matinb(m)
             C=self.concat(m,n,A,b)
-            print('concated',C)
             C=self.pivot(m,n,C)
-            print('pivoted',C) 
             for i in range(0,n):
                 for k in range(i+1,m):
                     r=C[k,i]/C[i,i]
                     if r!=0:
                         for d  in range(0,n+1):
                             C[k,d]-=r*C[i,d]
-            print('c after',C)
             x=self.bsubs(m,n,C)
-            print('ans',x)
             return(x)
 
-            if methord=='gauss-jordan':
+        if method=='gaussjordan':
 
-                m,n=int(input('row ')),int(input('column'))
-                A=self.matinA(m,n)
-                b=self.matinb(m)
-                C=self.concat(m,n,A,b)
-                C=self.pivot(m,n,C)
+            m,n=int(input('row ')),int(input('column'))
+            A=self.matinA(m,n)
+            b=self.matinb(m)
+            C=self.concat(m,n,A,b)
+            C=self.pivot(m,n,C)
 
-                for i in range(0,n):
-                    for k in range(0,n):
-                        if k!=i:
-                            r=C[k,i]/C[i,i]
-                            if r!=0:
-                                for d  in range(0,n+1):
-                                    C[k,d]-=r*C[i,d]
+            for i in range(0,n):
+                for k in range(0,n):
+                    if k!=i:
+                        r=C[k,i]/C[i,i]
+                        if r!=0:
+                            for d  in range(0,n+1):
+                                C[k,d]-=r*C[i,d]
 
-                x=self.bsubs(m,n,C)
-                return(x)
+            x=self.bsubs(m,n,C)
+            return(x)
 
 
-            elif methord =='gauss-siedel':
+        elif method =='gauss-siedel':
 
-                import numpy as np
-                n=int(input('order'))
-                A=self.matinA(n,n)
-                b=self.matinb(n)
-                eps,D,L,U=np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n)
-                for i in range(n) :
-                    eps[i]=.0000001                  #value for epsilon
-                lmt=20                                     #iteration limit
+            import numpy as np
+            n=int(input('order'))
+            A=self.matinA(n,n)
+            b=self.matinb(n)
+            eps,D,L,U=np.zeros(n),np.zeros(n),np.zeros(n),np.zeros(n)
+            for i in range(n) :
+                eps[i]=.0000001                  #value for epsilon
+            lmt=20                                     #iteration limit
 
-                for i in range(n):
-                    for j in range(n):
-                        if i==j:
-                            D[i,j]=A[i,j]
-                        elif i>j:
-                            L[i,j]=A[i,j]
-                U=A-L-D
+            for i in range(n):
+                for j in range(n):
+                    if i==j:
+                        D[i,j]=A[i,j]
+                    elif i>j:
+                        L[i,j]=A[i,j]
+            U=A-L-D
 
-                for i in range(lmt):
-                    if np.greater(abs(np.dot(A,x)-b),eps).any():
-                        q=- (np.dot(np.linalg.inv(L+D), b + np.dot(U, x)))
-                        x=q
-                    else:
-                        break
-                return(x)
+            for i in range(lmt):
+                if np.greater(abs(np.dot(A,x)-b),eps).any():
+                    q=- (np.dot(np.linalg.inv(L+D), b + np.dot(U, x)))
+                    x=q
+                else:
+                    break
+            return(x)
 
-            else:
-                return NULL
+        else:
+            return NULL
+
