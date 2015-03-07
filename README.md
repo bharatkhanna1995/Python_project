@@ -69,10 +69,10 @@ class lss:
                     if r!=0:
                         for d  in range(0,n+1):
                             C[k,d]-=r*C[i,d]
-                print('c after',C)
-                x=self.bsubs(m,n,C)
-                print('ans',x)
-                return(x)
+            print('c after',C)
+            x=self.bsubs(m,n,C)
+            print('ans',x)
+            return(x)
 
             if methord=='gauss-jordan':
 
