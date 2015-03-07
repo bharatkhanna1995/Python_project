@@ -1,4 +1,4 @@
-class LinearSystemSolver:
+class lss:
 
     def matinA(self,m,n):
         from numpy import zeros,array
@@ -28,23 +28,28 @@ class LinearSystemSolver:
         return C_
 
 
-    def bsubs(m,n,C):
+    def bsubs(self,m,n,C):
+        from numpy import zeros,array
         x_=zeros((m),float)
         for i in range(m-1,-1,-1):
             x_[i]=C[i,n]
             for j in range(i+1,n):
                 x_[i]-=C[i,j]*x_[j]
             x_[i]=x_[i]/C[i,i]
+        print ('x',x_)
         return x_
 
-    def pivot(m,n,C):
+    def pivot(self,m,n,C):
+        from numpy import zeros,array
+        C_=zeros((m,n+1),float)
+        C_=C
         for i in range(0,n):
-            if C[i,i]==0:
+            if C_[i,i]==0:
                 for j in range(i+1,m):
-                    if C[j,i]!=0:
-                        temp_rw=C[i].copy()
-                        C[i],C[j]=C[j],temp_rw
-        return(C)
+                    if C_[j,i]!=0:
+                        temp_rw=C_[i].copy()
+                        C_[i],C_[j]=C_[j],temp_rw
+        return(C_)
 
 
     def solve(self,method):
@@ -55,15 +60,18 @@ class LinearSystemSolver:
             A=self.matinA(m,n)
             b=self.matinb(m)
             C=self.concat(m,n,A,b)
+            print('concated',C)
             C=self.pivot(m,n,C)
-
-            for k in range(i+1,m):
-                r=C[k,i]/C[i,i]
-                if r!=0:
-                    for d  in range(0,n+1):
-                        C[k,d]-=r*C[i,d]
-
+            print('pivoted',C) 
+            for i in range(0,n):
+                for k in range(i+1,m):
+                    r=C[k,i]/C[i,i]
+                    if r!=0:
+                        for d  in range(0,n+1):
+                            C[k,d]-=r*C[i,d]
+                print('c after',C)
                 x=self.bsubs(m,n,C)
+                print('ans',x)
                 return(x)
 
             if methord=='gauss-jordan':
