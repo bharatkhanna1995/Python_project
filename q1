@@ -12,3 +12,24 @@ class LPsolver():
         arr=np.insert(arr,len(a)+l_b,b,1)
         B=np.array([0]*l_b)
         C=np.array(a+[0]*l_b)
+        ran=range(l_a,l_a+l_b)
+        while(1):
+            maxpos=[]
+            minpos=[]
+            for i in range(l_a+l_b):
+                maxpos.append(C[i]-np.dot(B,arr[:,i]))
+
+
+            c=maxpos.index(max(maxpos))
+
+            if maxpos[c]<=0:
+                break
+            for i in range(l_b):
+                if arr[i,c]!=0:
+                    minpos.append(arr[i,-1]/arr[i,c])
+                else:
+                    minpos.append(100000000000)
+            q=filter(lambda x:x>0,minpos)
+            if q==[]:
+                return "unbounded function"
+                break
