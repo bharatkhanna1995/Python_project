@@ -1,0 +1,14 @@
+import numpy as np
+class LPsolver():
+
+    def solve(self,a,b,c):
+        l_b=len(b)
+        l_a=len(a)
+        arr=np.array(c)
+        arr=np.concatenate((arr,np.identity(len(b))),1)
+        b=np.array(b)
+        x=[0]*l_a
+
+        arr=np.insert(arr,len(a)+l_b,b,1)
+        B=np.array([0]*l_b)
+        C=np.array(a+[0]*l_b)
