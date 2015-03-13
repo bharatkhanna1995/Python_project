@@ -40,8 +40,3 @@ class Interpolate:
                 prod=P.polymul(prod,(-1*L[j],1))                              
             result=P.polyadd(result,array(prod)*mat[0][i])                  
         return (list(result))                                               
-
-apx=Interpolate()                                                          
-for method in ["newton","lagrange"]:
-    solution=apx.solve([1,2,3],[0,-1,0],method)
-    print(solution)
