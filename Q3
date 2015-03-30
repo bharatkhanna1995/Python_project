@@ -1,6 +1,3 @@
-#Q3
-import matplotlib.pyplot as plt
-import numpy as np
 class PolynomialSolver:
     def F(self,n,L,val):
         k=0
@@ -12,27 +9,36 @@ class PolynomialSolver:
         for i in range(1,n+1):
             k+=i*L[i]*(val**(i-1))
         return k
+    def grap(self,u,l,n,L,it):
+          import matplotlib.pyplot as plt
+          import numpy as np
+          x=np.arange(l,u,1/200)
+          y=[self.F(n,L,i) for i in x]
+          plt.xlabel('x')
+          plt.title('Polynomial Solver')
+          plt.ylabel('F(x)')
+          plt.plot(x,y,'b')
+          plt.plot([l,u],[self.F(n,L,l),self.F(n,L,u)],'yo')
+          if it == 1:
+              plt.plot([l,u],[self.F(n,L,l),self.F(n,L,u)],'ro')
+          plt.show()
     def solve(self,n,L,method):
         if(method=='bisection'):
-            plt.axis([-15,15,-15,15])
-            plt.plot([float(x) for x in np.arange(-10.0,10.2,0.1)],[self.F(float(x)) for x in np.arange(-10.0,10.2,0.1)],'r-')
-            plt.plot([0,0],[-40,40],'b-',[-40,40],[0,0],'b-')
             print("Enter lower bound of interval in which root lies")
             l=int(input())
             print("Enter upper bound of interval in which root lies")
             u=int(input())
             print("Enter maximum number of itertions")
             it=int(input())
-            while(abs(self.F(n,L,l)-self.F(n,L,u))>0.00001 and it>0):
+            while(abs(l-u)>0.000000001):
                 m=(l+u)/2
+                self.grap(u,l,n,L,it)
                 if(self.F(n,L,l)*self.F(n,L,m)<0):
                     u=m
                 else:
                     l=m
                 print (l,u,self.F(n,L,l),self.F(n,L,u))
-                it-=1
-                plt.plot([l,l],[self.F(l)-0.5,self.F(l)+0.5],color='red')
-                plt.plot([u,u],[self.F(u)-0.5,self.F(u)+0.5],color='green')
+            print(self.F(n,L,m))
             return([l,u])
         if(method=='secant'):
             print("Enter lower bound of interval in which root lies")
@@ -44,6 +50,7 @@ class PolynomialSolver:
             while(abs(self.F(n,L,l))>0.00001 and it>0):
                 f1=self.F(n,L,l)
                 f2=self.F(n,L,u)
+                self.grap(u,l,n,L,it)
                 l,u=u,u-(((u-l)*f2)/(f2-f1))
                 print (l,u,f1,f2)
                 it-=1
@@ -59,6 +66,7 @@ class PolynomialSolver:
             while(abs(self.F(n,L,m))>0.00001 and it>0):
                 f1=self.F(n,L,l)
                 f2=self.F(n,L,u)
+                self.grap(u,l,n,L,it)
                 m=u-(((u-l)*f2)/(f2-f1))
                 fm=self.F(n,L,m)
                 if(f1*fm<0):
@@ -74,6 +82,9 @@ class PolynomialSolver:
             print("Enter maximum number of itertions")
             it=int(input())
             while(abs(self.F(n,L,l))>0.00001 and it>0):
+                self.grap(l,n,L,it)
                 l=l-self.F(n,L,l)/self.Fder(n,L,l)
                 it-=1
             return(l)
+        else:
+            return NULL
