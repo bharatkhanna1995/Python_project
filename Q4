@@ -9,6 +9,7 @@ class Interpolate:
 
     def plot(self,coeffs,A,B):
         coeffs.reverse()
+        
         def f(x):
             order,sum=len(coeffs)-1,0
             for i in range(order+1):
@@ -21,9 +22,8 @@ class Interpolate:
         x_values.append(max(A)+1)
         y_values=[f(x) for x in x_values]
         plt.plot(x_values,y_values,A,B,'r o')
-        plt.xlabel("x - axis",fontsize=20)
-        plt.ylabel("y - axis",fontsize=20)
         plt.show()
+        
     def Lagrange(self,A,B):
 
         from numpy import array
@@ -54,15 +54,9 @@ class Interpolate:
         res=array((mat[0][0],))
         for i in range(1,n):
             prod=(-1*A[0],1)
-
             for j in range(1,i):
                 prod=P.polymul(prod,(-1*A[j],1))
             res=P.polyadd(res,array(prod)*mat[0][i])
         self.plot(list(res),A,B)
         print("NOTE: coefficients of the terms in the result start from constant term and go up to the highest order term")
         return (list(res))
-
-apx=Interpolate()
-for method in ["newton","lagrange"]:
-    sol=apx.solve([1,2,3],[1,4,9],method)
-    print(sol)
