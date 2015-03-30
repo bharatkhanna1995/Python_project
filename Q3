@@ -19,7 +19,6 @@ class PolynomialSolver:
           plt.xlabel('x')
           plt.title('Polynomial Solver')
           plt.ylabel('F(x)')
-          fig, ax = plt.subplots()
           plt.plot(x,y,'b')
           plt.plot([l,u],[self.F(n,L,l),self.F(n,L,u)],'yo')
           if it == 1:
