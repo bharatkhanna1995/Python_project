@@ -15,12 +15,12 @@ class PolynomialSolver:
     def solve(self,n,L,method):
         if(method=='bisection'):
             plt.axis([-15,15,-15,15])
-            plt.plot([float(x) for x in np.arange(-10.0,10.2,0.1)],[self.F(float(x)) for x in np.arange(-10.0,10.2,0.1)],'r-')
+            plt.plot([float(x) for x in np.arange(-10.0,10.2,0.1)],[self.F(n,L,float(x)) for x in np.arange(-10.0,10.2,0.1)],'r-')
             plt.plot([0,0],[-40,40],'b-',[-40,40],[0,0],'b-')
             print("Enter lower bound of interval in which root lies")
-            l=int(input())
+            l=float(input())
             print("Enter upper bound of interval in which root lies")
-            u=int(input())
+            u=float(input())
             print("Enter maximum number of itertions")
             it=int(input())
             while(abs(self.F(n,L,l)-self.F(n,L,u))>0.00001 and it>0):
@@ -31,21 +31,22 @@ class PolynomialSolver:
                     l=m
                 print (l,u,self.F(n,L,l),self.F(n,L,u))
                 it-=1
-                plt.plot([l,l],[self.F(l)-0.5,self.F(l)+0.5],color='red')
-                plt.plot([u,u],[self.F(u)-0.5,self.F(u)+0.5],color='green')
+                plt.plot(l,self.F(n,L,l),'m^')
+                plt.plot(u,self.F(n,L,u),'go')
+            plt.show()
             return([l,u])
         if(method=='secant'):
             print("Enter lower bound of interval in which root lies")
-            l=int(input())
+            l=float(input())
             print("Enter upper bound of interval in which root lies")
-            u=int(input())
+            u=float(input())
             print("Enter maximum number of itertions")
             it=int(input())
             while(abs(self.F(n,L,l))>0.00001 and it>0):
                 f1=self.F(n,L,l)
                 f2=self.F(n,L,u)
                 l,u=u,u-(((u-l)*f2)/(f2-f1))
-                print (l,u,f1,f2)
+                #print (l,u,f1,f2)
                 it-=1
             return(l)
         if(method=='secantRF'):
@@ -77,3 +78,5 @@ class PolynomialSolver:
                 l=l-self.F(n,L,l)/self.Fder(n,L,l)
                 it-=1
             return(l)
+pss=PolynomialSolver()
+pss.solve(2,[-1,0,1],'bisection')
