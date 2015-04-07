@@ -28,7 +28,7 @@ class Integrate:
 		    x=np.arange(a,b,float(b-a)/n)
 		    x=np.append(x,b)
 		    y=[f(i) for i in x]
-		    plt.fill_between(x,y,facecolor='#FFFF99')
+		    plt.fill_between(x,y,facecolor='yellow')
 		    
 		    for i in x:
 		        plt.plot([i,i],[f(i),0],'r')
