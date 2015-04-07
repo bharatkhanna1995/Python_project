@@ -1,51 +1,56 @@
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 import numpy as np
 class Integrate:
-    def solve(self,order,coeffs,method):
-        def f(x):
-            sum=0
-            for i in range(order+1):
-                sum+=(coeffs[i]*(x**(order-i)))
-            return sum
-        plt.axis([-15,15,-15,15])
-            plt.plot([float(x) for x in np.arange(-10.0,10.2,0.1)],[f(float(x)) for x in np.arange(-10.0,10.2,0.1)],'r-')plt.plot([0,0],[-40,40],'b-',[-40,40],[0,0],'b-')
-
+	def solve(self,order,coeffs,method):
+		def f(x):
+			sum=0
+			for i in range(order+1):
+				sum+=(coeffs[i]*(x**(order-i)))
+			return sum
+			
 		if method=='trapezoid':
-			a=float(input('enter the lower limit of interval: '))
-			b=float(input('enter the upper limit of interval: '))
-			n=int((b-a)/0.0005)
-			x_values=[a]
-            for i in range(1,n):
-				x_values.append(float(str(x_values[0]+(0.001*i))[:5]))
-			x_values.append(b)
-			def trapezoid_solution(f,x_values,n):
-				sum=0
-				for i in range(1,n):
-					sum+=f(x_values[i])
-					plt.plot([a+0.0005*(i+1),a+0.0005*(i+1)],[0,f(a+0.0005*(i+1))],color='red')
-				sum*=2
-				sum+=(f(x_values[0])+f(x_values[n]))
-				ans=((x_values[n]-x_values[0])*sum)/(2*n)
-				plt.show()
-				return ans
-			return trapezoid_solution(f,x_values,n)
-		elif method=='simpson':
-			a=float(input('enter the lower limit of interval: '))
-			b=float(input('enter the upper limit of interval: '))
-			n=int((b-a)/0.0005)
-			x_values=[a]
-            for i in range(1,n):
-                x_values.append(float(str(x_values[0]+(0.0005*i)[:5]))
-			x_values.append(b)
-			def simpson_solution(f,x_values,n):
-                sum1,sum2,sum=0,0,0
-				for i in range(1,n,2):
-					sum1+=f(x_values[i])
-				sum1*=4
-				for i in range(2,n,2):
-					sum2+=f(x_values[i])
-				sum2*=2
-				sum+=(f(x_values[0])+f(x_values[n])+sum1+sum2)
-				ans=((x_values[n]-x_values[0])*sum)/(3*n)
-				return ans
-			return simpson_solution(f,x_values,n)
+		    a=-3
+		    b=3
+		    n=200
+		    p=np.arange(a-1,b+1,0.0001)
+		    q=[f(i) for i in  p]
+		    plt.axis([a-1,b+1,min(q)-2,max(q)+2])
+                    
+                    plt.plot(p,q,'m')
+                    
+                    
+                    
+                    r=np.arange(a,b,0.0001)
+                    s=[f(i) for i in  r]
+                    plt.plot(r,s,'r')
+                    
+                    
+		    x=np.arange(a,b,float(b-a)/n)
+		    x=np.append(x,b)
+		    y=[f(i) for i in x]
+		    plt.fill_between(x,y,facecolor='#FFFF99')
+		    
+		    for i in x:
+		        plt.plot([i,i],[f(i),0],'r')
+		    
+		    plt.axhline(y=0)
+		    plt.axvline(x=0)
+		    ans=f(a)+f(b)
+		    ans=ans+(2*sum(y[1:n+1]))
+		    ans=ans*(b-a)/(2*n)
+		    print(ans)
+		    
+		    
+		    
+		    
+		    plt.show()
+		    
+		    
+		    
+		    
+		    
+		    
+		 
+		 
+obj=Integrate()
+obj.solve(2,[1,0,0],"trapezoid")
